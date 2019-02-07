@@ -27,7 +27,16 @@ public class QueenBoard {
   *excludes the character up to the *)
   */
   public String toString() {
-
+    String ans = "";
+    for (int row = 0; row < board.length; row ++) {
+      for (int col = 0; col < board[row].length; col ++) {
+        if (board[row][col] = -1) {
+          ans += "Q";
+        } else {
+          ans += "_";
+        }
+      }
+    }
   }
   /**
   *@return false when the board is not solveable and leaves the board filled with zeros;
