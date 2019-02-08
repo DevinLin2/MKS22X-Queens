@@ -1,6 +1,7 @@
 public class QueenBoard {
 
   private int[][] board;
+
   public static void main(String[] args) {
     QueenBoard board = new QueenBoard(8);
     System.out.println(board);
@@ -8,18 +9,35 @@ public class QueenBoard {
     board.addQueen(1,7);
     System.out.println(board);
   }
-  public QueenBoard(int size) {
+
+  public QueenBoard(int size) { // loop to add 0 to each spot
     board = new int[size][size];
+    for (int row = 0; row < board.length; row ++) {
+      for (int col = 0; col < board[row].length; col ++) {
+        board[row][col] = 0;
+      }
+    }
   }
 
-  private boolean addQueen(int row, int col) {
+  private boolean addQueen(int row, int col) { // fix this to add 1 to each endangered spot use slope
     if (board[row][col] != -1 && row < board.length && col < board[row].length) {
       board[row][col] = -1;
+      for (int r = 0; r < board.length; r ++) {
+        for (int c = 0; c < board[row].length; c ++) {
+          if (r == row) {
+            board[row][col] += 1;
+          }
+          if (c = col) {
+            board[row][col] += 1;
+          }
+          if // use slope here
+        }
+      }
       return true;
     }
     return false;
   }
-  private boolean removeQueen(int row, int col) {
+  private boolean removeQueen(int row, int col) { // fix this to remove 1 from each endangered spot
     if (board[row][col] == -1 && row < board.length && col < board[row].length) {
       board[row][col] = 0;
       return true;
@@ -60,7 +78,7 @@ public class QueenBoard {
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve() {
-    return true;
+    return false;
   }
   /**
   *@return the number of solutions found, and leaves the board filled with only 0's
