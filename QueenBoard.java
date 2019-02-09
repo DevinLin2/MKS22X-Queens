@@ -7,6 +7,13 @@ public class QueenBoard {
     System.out.println(board);
     board.addQueen(5,5);
     System.out.println(board);
+    board.removeQueen(5,5);
+    System.out.println(board);
+    board.addQueen(1,1);
+    board.addQueen(5,4);
+    System.out.println(board);
+    board.removeQueen(5,4);
+    System.out.println(board);
   }
 
   public QueenBoard(int size) { // loop to add 0 to each spot
@@ -40,9 +47,24 @@ public class QueenBoard {
     }
     return false;
   }
-  private boolean removeQueen(int row, int col) { // fix this to remove 1 from each endangered spot
+  private boolean removeQueen(int row, int col) {
     if (board[row][col] == -1 && row < board.length && col < board[row].length) {
       board[row][col] = 0;
+      for (int r = 0; r < board.length; r ++) {
+        for (int c = 0; c < board[row].length; c ++) {
+          if (r == row && c != col) {
+            board[r][c] -= 1;
+          }
+          if (c == col && r != row) {
+            board[r][c] -= 1;
+          }
+          if (c != col && r != row) {
+            if ((((r - row) / (c - col) == 1) || ((r - row) / (c - col) == -1)) && ((r - row) % (c - col) == 0)) {
+              board[r][c] -= 1;
+            }
+          }
+        }
+      }
       return true;
     }
     return false;
