@@ -5,8 +5,7 @@ public class QueenBoard {
   public static void main(String[] args) {
     QueenBoard board = new QueenBoard(8);
     System.out.println(board);
-    board.addQueen(0,0);
-    board.addQueen(1,7);
+    board.addQueen(5,5);
     System.out.println(board);
   }
 
@@ -19,18 +18,22 @@ public class QueenBoard {
     }
   }
 
-  private boolean addQueen(int row, int col) { // fix this to add 1 to each endangered spot use slope
+  private boolean addQueen(int row, int col) {
     if (board[row][col] != -1 && row < board.length && col < board[row].length) {
       board[row][col] = -1;
       for (int r = 0; r < board.length; r ++) {
         for (int c = 0; c < board[row].length; c ++) {
-          if (r == row) {
-            board[row][col] += 1;
+          if (r == row && c != col) {
+            board[r][c] += 1;
           }
-          if (c = col) {
-            board[row][col] += 1;
+          if (c == col && r != row) {
+            board[r][c] += 1;
           }
-          if // use slope here
+          if (c != col && r != row) {
+            if ((((r - row) / (c - col) == 1) || ((r - row) / (c - col) == -1)) && ((r - row) % (c - col) == 0)) {
+              board[r][c] += 1;
+            }
+          }
         }
       }
       return true;
@@ -59,14 +62,22 @@ public class QueenBoard {
   *excludes the character up to the *)
   */
   public String toString() {
+    // String ans = "";
+    // for (int row = 0; row < board.length; row ++) {
+    //   for (int col = 0; col < board[row].length; col ++) {
+    //     if (board[row][col] == -1) {
+    //       ans += "Q ";
+    //     } else {
+    //       ans += "_ ";
+    //     }
+    //   }
+    //   ans += "\n";
+    // }
+    // return ans;
     String ans = "";
     for (int row = 0; row < board.length; row ++) {
       for (int col = 0; col < board[row].length; col ++) {
-        if (board[row][col] == -1) {
-          ans += "Q ";
-        } else {
-          ans += "_ ";
-        }
+        ans += board[row][col] + " ";
       }
       ans += "\n";
     }
