@@ -3,16 +3,8 @@ public class QueenBoard {
   private int[][] board;
 
   public static void main(String[] args) {
-    QueenBoard board = new QueenBoard(8);
-    System.out.println(board);
-    board.addQueen(5,5);
-    System.out.println(board);
-    board.removeQueen(5,5);
-    System.out.println(board);
-    board.addQueen(1,1);
-    board.addQueen(5,4);
-    System.out.println(board);
-    board.removeQueen(5,4);
+    QueenBoard board = new QueenBoard(3);
+    board.solve();
     System.out.println(board);
   }
 
@@ -26,17 +18,17 @@ public class QueenBoard {
   }
 
   private boolean addQueen(int row, int col) {
-    if (board[row][col] != -1 && row < board.length && col < board[row].length) {
+    if (board[row][col] == 0 && row < board.length && col < board[row].length) {
       board[row][col] = -1;
       for (int r = 0; r < board.length; r ++) {
         for (int c = 0; c < board[row].length; c ++) {
-          if (r == row && c != col) {
+          if (r == row && c != col) { // every spot in the row but the queen
             board[r][c] += 1;
           }
-          if (c == col && r != row) {
+          if (c == col && r != row) { // every spot in the col but the queen
             board[r][c] += 1;
           }
-          if (c != col && r != row) {
+          if (c != col && r != row) { // uses slope for diagonals
             if ((((r - row) / (c - col) == 1) || ((r - row) / (c - col) == -1)) && ((r - row) % (c - col) == 0)) {
               board[r][c] += 1;
             }
@@ -52,13 +44,13 @@ public class QueenBoard {
       board[row][col] = 0;
       for (int r = 0; r < board.length; r ++) {
         for (int c = 0; c < board[row].length; c ++) {
-          if (r == row && c != col) {
+          if (r == row && c != col) { // every spot in the row but the queen
             board[r][c] -= 1;
           }
-          if (c == col && r != row) {
+          if (c == col && r != row) { // every spot in the col but the queen
             board[r][c] -= 1;
           }
-          if (c != col && r != row) {
+          if (c != col && r != row) { // uses slope for diagonals
             if ((((r - row) / (c - col) == 1) || ((r - row) / (c - col) == -1)) && ((r - row) % (c - col) == 0)) {
               board[r][c] -= 1;
             }
@@ -73,33 +65,16 @@ public class QueenBoard {
   *@return The output string formatted as follows:
   *All numbers that represent queens are replaced with 'Q'
   *all others are displayed as underscores '_'
-  *There are spaces between each symbol:
-  *"""_ _ Q _
-  *Q _ _ _
-
-  *_ _ _ Q
-
-  *_ Q _ _"""
-  *(pythonic string notation for clarity,
-  *excludes the character up to the *)
   */
   public String toString() {
-    // String ans = "";
-    // for (int row = 0; row < board.length; row ++) {
-    //   for (int col = 0; col < board[row].length; col ++) {
-    //     if (board[row][col] == -1) {
-    //       ans += "Q ";
-    //     } else {
-    //       ans += "_ ";
-    //     }
-    //   }
-    //   ans += "\n";
-    // }
-    // return ans;
     String ans = "";
     for (int row = 0; row < board.length; row ++) {
       for (int col = 0; col < board[row].length; col ++) {
-        ans += board[row][col] + " ";
+        if (board[row][col] == -1) {
+          ans += "Q ";
+        } else {
+          ans += "_ ";
+        }
       }
       ans += "\n";
     }
@@ -111,6 +86,18 @@ public class QueenBoard {
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve() {
+    return solveHelper(0);
+  }
+  public boolean solveHelper(int col) {
+    if (col >= board.length) {
+      return true;
+    }
+    for (int row = 0; row < board.length; row++) {
+      if (addQueen(row,col) && solveHelper(col + 1)) {
+        return true;
+      }
+      removeQueen(row,col);
+    }
     return false;
   }
   /**
