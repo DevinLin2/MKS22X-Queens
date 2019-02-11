@@ -113,26 +113,31 @@ public class QueenBoard {
     return countSolutionsHelper(0, 0, 0);
   }
   public int countSolutionsHelper(int row, int col, int ans) {
+    int answer = 0;
     if (row < board.length && col < board[row].length && addQueen(row, col)) {
-      if (!solveHelper(0)) {
-        for (int r = 0; r < board.length; r ++) {
-          for (int c = 0; c < board[row].length; c ++) {
-            removeQueen(r, c);
-          }
+      for (int row1 = 0; row1 < board.length; row1++) {
+        if (row1 < board.length && addQueen(row1, 1) && solveHelper(col)) {
+          answer++;
         }
-        return countSolutionsHelper(row + 1, col, ans);
-      } else {
-        for (int r = 0; r < board.length; r ++) {
-          for (int c = 0; c < board[row].length; c ++) {
-            removeQueen(r, c);
-          }
-        }
-        return countSolutionsHelper(row + 1, col, ans + 1);
+        removeAllButFirstQueens();
       }
-    }
-    if (col < board.length) {
-      return countSolutionsHelper(0, col + 1, ans);
+      removeAllQueens();
+      return countSolutionsHelper(row + 1, col, ans + answer);
     }
     return ans;
+  }
+  public void removeAllQueens() {
+    for (int r = 0; r < board.length; r ++) {
+      for (int c = 0; c < board[r].length; c ++) {
+        removeQueen(r, c);
+      }
+    }
+  }
+  public void removeAllButFirstQueens() {
+    for (int r = 0; r < board.length; r ++) {
+      for (int c = 1; c < board[r].length; c ++) {
+        removeQueen(r, c);
+      }
+    }
   }
 }
