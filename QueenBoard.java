@@ -5,7 +5,7 @@ public class QueenBoard {
   public static void main(String[] args) {
     QueenBoard board = new QueenBoard(Integer.parseInt(args[0]));
     //board.solve();
-    System.out.println(board);
+    //System.out.println(board);
     System.out.println(board.countSolutions());
     System.out.println(board);
   }
@@ -95,6 +95,9 @@ public class QueenBoard {
       return true;
     }
     for (int row = 0; row < board.length; row++) {
+      if (board[row][col] == -1) {
+        return solveHelper(col + 1);
+      }
       if (addQueen(row,col) && solveHelper(col + 1)) {
         return true;
       }
@@ -126,6 +129,9 @@ public class QueenBoard {
         }
         return countSolutionsHelper(row + 1, col, ans + 1);
       }
+    }
+    if (col < board.length) {
+      return countSolutionsHelper(0, col + 1, ans);
     }
     return ans;
   }
