@@ -4,9 +4,9 @@ public class QueenBoard {
 
   public static void main(String[] args) {
     QueenBoard board = new QueenBoard(Integer.parseInt(args[0]));
-    //board.solve();
+    System.out.println(board.solve());
     //System.out.println(board);
-    System.out.println(board.countSolutions());
+    //System.out.println(board.countSolutions());
     System.out.println(board);
   }
 
@@ -64,7 +64,7 @@ public class QueenBoard {
     return false;
   }
   /**
-  *@return The output string formatted as follows:
+  *@return The output string forboardted as follows:
   *All numbers that represent queens are replaced with 'Q'
   *all others are displayed as underscores '_'
   */
@@ -95,9 +95,6 @@ public class QueenBoard {
       return true;
     }
     for (int row = 0; row < board.length; row++) {
-      if (board[row][col] == -1) {
-        return solveHelper(col + 1);
-      }
       if (addQueen(row,col) && solveHelper(col + 1)) {
         return true;
       }
@@ -110,34 +107,19 @@ public class QueenBoard {
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions() {
-    return countSolutionsHelper(0, 0, 0);
+    return countSolutionsHelper(0);
   }
-  public int countSolutionsHelper(int row, int col, int ans) {
-    int answer = 0;
-    if (row < board.length && col < board[row].length && addQueen(row, col)) {
-      for (int row1 = 0; row1 < board.length; row1++) {
-        if (row1 < board.length && addQueen(row1, 1) && solveHelper(col)) {
-          answer++;
-        }
-        removeAllButFirstQueens();
+  public int countSolutionsHelper(int col) {
+    int ans = 0;
+    if (col >= board.length) {
+      return 1;
+    }
+    for (int row = 0; row < board.length; row++) {
+      if (addQueen(row, col)) {
+        ans += countSolutionsHelper(col + 1);
       }
-      removeAllQueens();
-      return countSolutionsHelper(row + 1, col, ans + answer);
+      removeQueen(row, col);
     }
     return ans;
-  }
-  public void removeAllQueens() {
-    for (int r = 0; r < board.length; r ++) {
-      for (int c = 0; c < board[r].length; c ++) {
-        removeQueen(r, c);
-      }
-    }
-  }
-  public void removeAllButFirstQueens() {
-    for (int r = 0; r < board.length; r ++) {
-      for (int c = 1; c < board[r].length; c ++) {
-        removeQueen(r, c);
-      }
-    }
   }
 }
