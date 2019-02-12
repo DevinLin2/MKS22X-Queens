@@ -4,9 +4,9 @@ public class QueenBoard {
 
   public static void main(String[] args) {
     QueenBoard board = new QueenBoard(Integer.parseInt(args[0]));
-    System.out.println(board.solve());
-    //System.out.println(board);
-    //System.out.println(board.countSolutions());
+    //System.out.println(board.solve());
+    System.out.println(board);
+    System.out.println(board.countSolutions());
     System.out.println(board);
   }
 
@@ -88,6 +88,13 @@ public class QueenBoard {
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public boolean solve() {
+    for (int row = 0; row < board.length; row ++) {
+      for (int col = 0; col < board[row].length; col ++) {
+        if (board[row][col] != 0) {
+          throw new IllegalStateException("Board contains non-zero value.");
+        }
+      }
+    }
     return solveHelper(0);
   }
   public boolean solveHelper(int col) {
@@ -107,6 +114,13 @@ public class QueenBoard {
   *@throws IllegalStateException when the board starts with any non-zero value
   */
   public int countSolutions() {
+    for (int row = 0; row < board.length; row ++) {
+      for (int col = 0; col < board[row].length; col ++) {
+        if (board[row][col] != 0) {
+          throw new IllegalStateException("Board contains non-zero value.");
+        }
+      }
+    }
     return countSolutionsHelper(0);
   }
   public int countSolutionsHelper(int col) {
